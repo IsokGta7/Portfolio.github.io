@@ -1,9 +1,8 @@
 "use client"
 
-import { useState, type ReactNode } from "react"
+import { useState, type ReactNode, useEffect } from "react"
 import { Moon, Sun, Menu, X } from "lucide-react"
 import { motion } from "framer-motion"
-
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useTranslation } from "@/hooks/use-translation"
@@ -16,22 +15,35 @@ interface ProjectLayoutProps {
 }
 
 export function ProjectLayout({ children, language, onLanguageChange }: ProjectLayoutProps) {
+  const [mounted, setMounted] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(true)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const t = useTranslation(translations[language], language)
 
+  useEffect(() => {
+    setMounted(true)
+    // Initialize dark mode from localStorage or system preference
+    const savedTheme = localStorage.getItem("theme") || 
+      (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+    setIsDarkMode(savedTheme === "dark")
+    document.documentElement.classList.toggle("dark", savedTheme === "dark")
+  }, [])
+
   const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode)
-    document.documentElement.classList.toggle("dark")
+    const newDarkMode = !isDarkMode
+    setIsDarkMode(newDarkMode)
+    localStorage.setItem("theme", newDarkMode ? "dark" : "light")
+    document.documentElement.classList.toggle("dark", newDarkMode)
   }
 
   const scrollToSection = (id: string) => {
+    if (!mounted) return
     const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
+    element?.scrollIntoView({ behavior: "smooth" })
     setIsMenuOpen(false)
   }
+
+  if (!mounted) return null
 
   return (
     <div className="min-h-screen bg-background text-foreground">
