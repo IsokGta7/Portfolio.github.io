@@ -11,11 +11,6 @@ export function CppProjectsContent() {
   const [language, setLanguage] = useState<"es" | "en">("es")
   const t = useTranslation(translations, language)
 
-  const cppProjects = t.
-
- | "en">("es")
-  const t = useTranslation(translations, language)
-
   const cppProjects = t.projects.cpp
 
   return (
