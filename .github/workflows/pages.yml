@@ -25,7 +25,8 @@ jobs:
           node-version: 22
           cache: npm
 
-      - uses: actions/configure-pages@v5
+      - id: pages
+        uses: actions/configure-pages@v5
 
       # A user site (<owner>.github.io) is served from the domain root; any
       # other repository is served from /<repository-name>/.
@@ -45,6 +46,9 @@ jobs:
       - run: npm ci
 
       - run: npm run build
+        env:
+          # Absolute URL of the published site, for canonical links and the sitemap.
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

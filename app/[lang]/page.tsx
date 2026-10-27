@@ -1,38 +1,36 @@
-"use client"
-
-import { useState } from "react"
 import { ProjectLayout } from "@/components/layouts/project-layout"
 import { ProjectSection } from "@/components/sections/project-section"
-import { translations, type Language } from "@/config/translations"
+import { translations } from "@/config/translations"
+import { resolveLang, type LangParams } from "@/lib/lang"
 
-export function ProjectsPage() {
-  const [language, setLanguage] = useState<Language>("es")
-  const { sections } = translations[language]
+export default async function Home({ params }: LangParams) {
+  const lang = await resolveLang(params)
+  const { sections } = translations[lang]
 
   return (
-    <ProjectLayout language={language} onLanguageChange={setLanguage}>
+    <ProjectLayout lang={lang}>
       <ProjectSection
         id="ai"
         title={sections.ai.title}
         subtitle={sections.ai.subtitle}
         projects={sections.ai.projects}
-        language={language}
+        language={lang}
       />
       <ProjectSection
         id="programming"
         title={sections.programming.title}
         subtitle={sections.programming.subtitle}
         skills={sections.programming.skills}
-        language={language}
+        language={lang}
       />
       <ProjectSection
         id="systems"
         title={sections.systems.title}
         subtitle={sections.systems.subtitle}
         skills={sections.systems.skills}
-        language={language}
+        language={lang}
       />
-      <ProjectSection id="posts" title={sections.posts.title} subtitle={sections.posts.subtitle} language={language} />
+      <ProjectSection id="posts" title={sections.posts.title} subtitle={sections.posts.subtitle} language={lang} />
     </ProjectLayout>
   )
 }

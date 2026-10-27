@@ -6,14 +6,17 @@ import type * as TF from "@tensorflow/tfjs"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { translations, type Language } from "@/config/translations"
 import { withBasePath } from "@/lib/base-path"
 
-// Output order of the trained model.
-const classNames = ["Margarita", "Diente de león", "Rosas", "Girasoles", "Tulipanes"]
 const INPUT_SIZE = 180
 
-export function FlowerPredictionContent() {
-  const [prediction, setPrediction] = useState<string>("Esperando predicción...")
+// A class index into t.classes, or a message key.
+type Result = number | "waiting" | "modelError" | "predictionError" | "cameraError"
+
+export function FlowerPredictionContent({ lang }: { lang: Language }) {
+  const t = translations[lang].projects.flowerClassifier
+  const [result, setResult] = useState<Result>("waiting")
   const [model, setModel] = useState<TF.LayersModel | null>(null)
   // TensorFlow.js is imported when the demo mounts, not with the page.
   const tfRef = useRef<typeof TF | null>(null)
@@ -44,7 +47,7 @@ export function FlowerPredictionContent() {
       })
       .catch((error: unknown) => {
         console.error("Error loading model:", error)
-        if (!cancelled) setPrediction("No se pudo cargar el modelo. Intenta recargar la página.")
+        if (!cancelled) setResult("modelError")
       })
       .finally(() => {
         if (!cancelled) setIsModelLoading(false)
@@ -70,13 +73,13 @@ export function FlowerPredictionContent() {
     try {
       const scores = Array.from(await output.data())
       const predictedClass = scores.indexOf(Math.max(...scores))
-      setPrediction(classNames[predictedClass])
+      setResult(predictedClass)
 
       const processedCtx = processedCanvasRef.current?.getContext("2d")
       processedCtx?.drawImage(canvas, 0, 0, INPUT_SIZE, INPUT_SIZE)
     } catch (error) {
       console.error("Prediction error:", error)
-      setPrediction("Error en la predicción")
+      setResult("predictionError")
     } finally {
       output.dispose()
     }
@@ -112,7 +115,7 @@ export function FlowerPredictionContent() {
       setCameraStream(stream)
     } catch (error) {
       console.error("Error accessing camera:", error)
-      alert("No se pudo acceder a la cámara.")
+      setResult("cameraError")
     }
   }
 
@@ -130,12 +133,15 @@ export function FlowerPredictionContent() {
     img.src = url
   }
 
+  // t.classes follows the output order of the trained model.
+  const resultText = typeof result === "number" ? t.classes[result] : t[result]
+
   return (
     <div className="mx-auto max-w-md">
       <Card className="border-2">
         <CardHeader>
           <CardTitle className="text-center text-lg" aria-live="polite">
-            {prediction}
+            {resultText}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -154,18 +160,18 @@ export function FlowerPredictionContent() {
 
             <div className="flex w-full gap-4">
               <Select value={selectedDevice} onValueChange={setSelectedDevice}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Seleccionar cámara" />
+                <SelectTrigger className="w-full" aria-label={t.selectCamera}>
+                  <SelectValue placeholder={t.selectCamera} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="user">Cámara Frontal</SelectItem>
-                  <SelectItem value="environment">Cámara Trasera</SelectItem>
+                  <SelectItem value="user">{t.frontCamera}</SelectItem>
+                  <SelectItem value="environment">{t.backCamera}</SelectItem>
                 </SelectContent>
               </Select>
 
               <Button onClick={startCamera} disabled={isModelLoading}>
                 <Camera className="mr-2 h-4 w-4" />
-                {cameraStream ? "Cambiar Cámara" : "Iniciar Cámara"}
+                {cameraStream ? t.switchCamera : t.startCamera}
               </Button>
             </div>
 
@@ -173,13 +179,13 @@ export function FlowerPredictionContent() {
               <input type="file" accept="image/*" onChange={handleImageUpload} className="peer sr-only" />
               <span className="inline-flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-md border border-input bg-background px-4 text-sm font-medium hover:bg-accent hover:text-accent-foreground peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2">
                 <Upload className="h-4 w-4" />
-                Subir Imagen
+                {t.upload}
               </span>
             </label>
           </div>
 
           <div className="text-center">
-            <h3 className="mb-2">Imagen Preprocesada</h3>
+            <h2 className="mb-2 text-base font-medium">{t.processed}</h2>
             <canvas
               ref={processedCanvasRef}
               width={INPUT_SIZE}

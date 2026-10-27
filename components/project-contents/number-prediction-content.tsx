@@ -5,12 +5,13 @@ import { Eraser, Wand2 } from "lucide-react"
 import type * as TF from "@tensorflow/tfjs"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { translations } from "@/config/translations"
+import { translations, type Language } from "@/config/translations"
 import { withBasePath } from "@/lib/base-path"
 
 type PointerLikeEvent = React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
 
-export function NumberPredictionContent() {
+export function NumberPredictionContent({ lang }: { lang: Language }) {
+  const t = translations[lang].projects.numberPrediction
   const [prediction, setPrediction] = useState<number | null>(null)
   const [model, setModel] = useState<TF.LayersModel | null>(null)
   const [isModelLoading, setIsModelLoading] = useState(true)
@@ -147,7 +148,7 @@ export function NumberPredictionContent() {
       <Card className="border-2">
         <CardHeader>
           <CardTitle className="min-h-7 text-center text-lg" aria-live="polite">
-            {prediction !== null ? `Predicted Number: ${prediction}` : ""}
+            {prediction !== null ? `${t.result} ${prediction}` : ""}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -155,6 +156,8 @@ export function NumberPredictionContent() {
             <canvas
               ref={canvasRef}
               className="h-full w-full touch-none"
+              role="img"
+              aria-label={t.canvasLabel}
               onMouseDown={startDrawing}
               onMouseMove={draw}
               onMouseUp={stopDrawing}
@@ -168,17 +171,17 @@ export function NumberPredictionContent() {
           <div className="flex justify-center gap-4">
             <Button onClick={handlePredict} className="w-full md:w-auto" disabled={!model}>
               <Wand2 className="mr-2 h-4 w-4" />
-              {isModelLoading ? "Loading Model..." : "Predict"}
+              {isModelLoading ? t.loading : t.predict}
             </Button>
             <Button variant="outline" onClick={handleClear} className="w-full md:w-auto">
               <Eraser className="mr-2 h-4 w-4" />
-              Clear
+              {t.clear}
             </Button>
           </div>
 
           {modelFailed && (
             <p role="alert" className="text-center text-sm text-destructive">
-              {translations.es.projects.numberPrediction.modelError}
+              {t.modelError}
             </p>
           )}
         </CardContent>

@@ -5,7 +5,7 @@ import Link from "next/link"
 import { ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import type { Language } from "@/config/translations"
+import { translations, type Language } from "@/config/translations"
 
 interface ProjectCardProps {
   title: string
@@ -30,9 +30,9 @@ export function ProjectCard({ title, description, link, language, index }: Proje
         </CardHeader>
         <CardContent>
           <Button variant="secondary" asChild className="w-full">
-            <Link href={link}>
+            <Link href={`/${language}${link}/`}>
               <ChevronRight className="mr-2 h-4 w-4" />
-              {language === "es" ? "Ver Proyecto" : "View Project"}
+              {translations[language].ui.viewProject}
             </Link>
           </Button>
         </CardContent>

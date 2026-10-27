@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts"
 import type { LayersModel, Tensor } from "@tensorflow/tfjs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { translations } from "@/config/translations"
+import { translations, type Language } from "@/config/translations"
 import { withBasePath } from "@/lib/base-path"
 
 interface ChartPoint {
@@ -105,8 +105,8 @@ const tooltipStyle = {
   border: "none",
 }
 
-export function BitcoinPredictionContent() {
-  const t = translations.es.projects.bitcoinPrediction
+export function BitcoinPredictionContent({ lang }: { lang: Language }) {
+  const t = translations[lang].projects.bitcoinPrediction
   const [data, setData] = useState<ChartPoint[]>([])
   const [status, setStatus] = useState<Status>("loading")
 
@@ -131,7 +131,7 @@ export function BitcoinPredictionContent() {
 
       setData(
         series.closes.map((close, i) => ({
-          time: new Date(series.times[i]).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+          time: new Date(series.times[i]).toLocaleTimeString(lang, { hour: "2-digit", minute: "2-digit" }),
           realValue: close,
           prediction: predictions[i],
         })),
@@ -162,7 +162,7 @@ export function BitcoinPredictionContent() {
       clearTimeout(timer)
       model?.dispose()
     }
-  }, [])
+  }, [lang])
 
   const statusText: Record<Status, string> = {
     loading: t.loading,

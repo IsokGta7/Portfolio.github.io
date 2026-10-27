@@ -1,4 +1,25 @@
+export const languages = ["es", "en"] as const
+export type Language = (typeof languages)[number]
+
+export function isLanguage(value: string): value is Language {
+  return (languages as readonly string[]).includes(value)
+}
+
 const es = {
+  meta: {
+    siteName: "Isaac Rodríguez",
+    title: "Isaac Rodríguez · Portafolio",
+    description:
+      "Portafolio de Isaac Rodríguez: proyectos de inteligencia artificial, programación en C++ y Python, y diseño de sistemas web.",
+  },
+  ui: {
+    skipToContent: "Saltar al contenido",
+    menu: "Menú",
+    lightMode: "Cambiar a modo claro",
+    darkMode: "Cambiar a modo oscuro",
+    switchLanguage: "Read in English",
+    viewProject: "Ver proyecto",
+  },
   nav: {
     ai: "Inteligencia Artificial",
     programming: "Programación",
@@ -89,13 +110,27 @@ const es = {
       title: "Predicción de Números Escritos a Mano",
       description: "Dibuja un número en el lienzo y el modelo lo identificará.",
       result: "Número predicho:",
+      loading: "Cargando el modelo…",
+      canvasLabel: "Lienzo para dibujar un número",
       modelError: "No se pudo cargar el modelo. Intenta recargar la página.",
       predict: "Predecir",
       clear: "Limpiar",
-      showDetails: "Mostrar detalles del proyecto",
-      hideDetails: "Ocultar detalles del proyecto",
-      markdownContent: ``,
-      notebookContent: ``,
+    },
+    flowerClassifier: {
+      title: "Clasificador de Flores",
+      description: "Clasificación en tiempo real usando cámara o imágenes",
+      classes: ["Margarita", "Diente de león", "Rosas", "Girasoles", "Tulipanes"],
+      waiting: "Esperando predicción...",
+      predictionError: "Error en la predicción",
+      modelError: "No se pudo cargar el modelo. Intenta recargar la página.",
+      cameraError: "No se pudo acceder a la cámara.",
+      selectCamera: "Seleccionar cámara",
+      frontCamera: "Cámara Frontal",
+      backCamera: "Cámara Trasera",
+      startCamera: "Iniciar Cámara",
+      switchCamera: "Cambiar Cámara",
+      upload: "Subir Imagen",
+      processed: "Imagen Preprocesada",
     },
     bitcoinPrediction: {
       title: "Predicción del valor de bolsa de bitcoin",
@@ -109,10 +144,6 @@ const es = {
       unreachable:
         "No se pudo conectar con Binance (puede estar bloqueado en tu país o no hay conexión). Se muestra una serie de ejemplo generada en el navegador, no precios reales.",
       modelError: "No se pudo cargar el modelo de predicción. Intenta recargar la página.",
-      showDetails: "Mostrar detalles del proyecto",
-      hideDetails: "Ocultar detalles del proyecto",
-      markdownContent: ``,
-      notebookContent: ``,
     },
     cpp: {
       title: "Proyectos en C++",
@@ -139,18 +170,27 @@ const es = {
       ],
     },
   },
-  common: {
-    markdownExplanation: "Explicación en Markdown",
-    jupyterNotebook: "Jupyter Notebook",
-  },
 }
 
-export type Language = "es" | "en"
 export type Dictionary = typeof es
 export type Project = Dictionary["sections"]["ai"]["projects"][number]
 export type Skill = Dictionary["sections"]["programming"]["skills"][number]
 
 const en: Dictionary = {
+  meta: {
+    siteName: "Isaac Rodríguez",
+    title: "Isaac Rodríguez · Portfolio",
+    description:
+      "Portfolio of Isaac Rodríguez: artificial intelligence projects, C++ and Python programming, and web systems design.",
+  },
+  ui: {
+    skipToContent: "Skip to content",
+    menu: "Menu",
+    lightMode: "Switch to light mode",
+    darkMode: "Switch to dark mode",
+    switchLanguage: "Leer en español",
+    viewProject: "View project",
+  },
   nav: {
     ai: "Artificial Intelligence",
     programming: "Programming",
@@ -241,13 +281,27 @@ const en: Dictionary = {
       title: "Handwritten Number Prediction",
       description: "Draw a number on the canvas and the model will identify it.",
       result: "Predicted number:",
+      loading: "Loading the model…",
+      canvasLabel: "Canvas to draw a number on",
       modelError: "The model could not be loaded. Try reloading the page.",
       predict: "Predict",
       clear: "Clear",
-      showDetails: "Show project details",
-      hideDetails: "Hide project details",
-      markdownContent: ``,
-      notebookContent: ``,
+    },
+    flowerClassifier: {
+      title: "Flower Classifier",
+      description: "Real-time classification from the camera or an image",
+      classes: ["Daisy", "Dandelion", "Roses", "Sunflowers", "Tulips"],
+      waiting: "Waiting for a prediction...",
+      predictionError: "Prediction failed",
+      modelError: "The model could not be loaded. Try reloading the page.",
+      cameraError: "The camera could not be accessed.",
+      selectCamera: "Select camera",
+      frontCamera: "Front camera",
+      backCamera: "Back camera",
+      startCamera: "Start camera",
+      switchCamera: "Switch camera",
+      upload: "Upload image",
+      processed: "Preprocessed image",
     },
     bitcoinPrediction: {
       title: "Bitcoin Value Prediction",
@@ -261,10 +315,6 @@ const en: Dictionary = {
       unreachable:
         "Binance could not be reached (it may be blocked in your country, or you are offline). Showing a sample series generated in the browser, not real prices.",
       modelError: "The prediction model could not be loaded. Try reloading the page.",
-      showDetails: "Show project details",
-      hideDetails: "Hide project details",
-      markdownContent: ``,
-      notebookContent: ``,
     },
     cpp: {
       title: "C++ Projects",
@@ -290,10 +340,6 @@ const en: Dictionary = {
         // Add more Python projects here
       ],
     },
-  },
-  common: {
-    markdownExplanation: "Markdown Explanation",
-    jupyterNotebook: "Jupyter Notebook",
   },
 }
 

@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CodeBlock } from "@/components/ui/code-block"
-import { translations } from "@/config/translations"
+import { translations, type Language } from "@/config/translations"
 
-export function PythonProjectsContent() {
-  const t = translations.es.projects.python
+export function PythonProjectsContent({ lang }: { lang: Language }) {
+  const t = translations[lang].projects.python
 
   return (
     <div className="grid gap-8 md:grid-cols-2">
