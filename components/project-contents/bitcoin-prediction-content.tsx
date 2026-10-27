@@ -1,12 +1,11 @@
 "use client"
 
 import { useState, useEffect, useCallback, useRef } from "react"
-import { motion } from "framer-motion"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { useTranslation } from "@/hooks/use-translation"
-import { translations } from "@/config/translations"
 import * as tf from "@tensorflow/tfjs"
+import { translations } from "@/config/translations"
+import { withBasePath } from "@/lib/base-path"
 
 interface ChartData {
   time: string
@@ -15,7 +14,6 @@ interface ChartData {
 }
 
 export function BitcoinPredictionContent() {
-  const [language] = useState<"es" | "en">("es")
   const [data, setData] = useState<ChartData[]>([])
   const [model, setModel] = useState<tf.LayersModel | null>(null)
   const [dataMean, setDataMean] = useState<number>(0)
@@ -23,7 +21,7 @@ export function BitcoinPredictionContent() {
   const recentData = useRef<number[]>([])
   const isMounted = useRef(true)
 
-  const t = useTranslation(translations, language)
+  const t = translations.es.projects.bitcoinPrediction
 
   // Load TensorFlow.js model with cleanup
   useEffect(() => {
@@ -32,7 +30,7 @@ export function BitcoinPredictionContent() {
     
     const loadModel = async () => {
       try {
-        const loadedModel = await tf.loadLayersModel('/assets/models/bitcoin/model_btc.json')
+        const loadedModel = await tf.loadLayersModel(withBasePath("/assets/models/bitcoin/model_btc.json"))
         if (isMounted.current) {
           modelInstance = loadedModel
           setModel(loadedModel)
@@ -133,21 +131,11 @@ export function BitcoinPredictionContent() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">
-          {t?.projects?.bitcoinPrediction?.title || "BTC/USDT Predictions"}
-        </h1>
-        <p className="text-muted-foreground">
-          {t?.projects?.bitcoinPrediction?.description || "Real-time price predictions using AI model"}
-        </p>
-      </motion.div>
-
-      <div className="grid gap-8">
+    <div className="grid gap-8">
         <Card>
           <CardHeader>
             <CardTitle>
-              {t?.projects?.bitcoinPrediction?.predictionChart || "Prediction Chart"}
+              {t.predictionChart}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -180,7 +168,7 @@ export function BitcoinPredictionContent() {
         <Card>
           <CardHeader>
             <CardTitle>
-              {t?.projects?.bitcoinPrediction?.comparison || "Real vs Predicted Comparison"}
+              {t.comparison}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -201,7 +189,7 @@ export function BitcoinPredictionContent() {
                   <Line
                     type="monotone"
                     dataKey="realValue"
-                    name={t?.projects?.bitcoinPrediction?.realValue || "Real Value"}
+                    name={t.realValue}
                     stroke="#3b82f6"
                     dot={false}
                     strokeWidth={2}
@@ -209,7 +197,7 @@ export function BitcoinPredictionContent() {
                   <Line
                     type="monotone"
                     dataKey="prediction"
-                    name={t?.projects?.bitcoinPrediction?.prediction || "Prediction"}
+                    name={t.prediction}
                     stroke="#ef4444"
                     dot={false}
                     strokeWidth={2}
@@ -219,7 +207,6 @@ export function BitcoinPredictionContent() {
             </div>
           </CardContent>
         </Card>
-      </div>
     </div>
   )
 }

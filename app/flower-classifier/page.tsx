@@ -1,11 +1,12 @@
 import { ProjectLayout } from "@/components/layouts/project-layout"
-import { FlowerPredictionContent } from "@/components/project-contents/flower-prediction-content"
+import { DemoHeader } from "@/components/demo-header"
+import { FlowerPredictionDemo } from "@/components/demos"
 
-// Rename the page component
-export default function FlowerClassifierPage() {
+export default function Page() {
   return (
     <ProjectLayout>
-      <FlowerPredictionContent />
+      <DemoHeader title="Clasificador de Flores" description="Clasificación en tiempo real usando cámara o imágenes" />
+      <FlowerPredictionDemo />
     </ProjectLayout>
   )
 }

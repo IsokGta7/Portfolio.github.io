@@ -3,50 +3,36 @@
 import { useState } from "react"
 import { ProjectLayout } from "@/components/layouts/project-layout"
 import { ProjectSection } from "@/components/sections/project-section"
-import { useTranslation } from "@/hooks/use-translation"
-import { translations } from "@/config/translations"
+import { translations, type Language } from "@/config/translations"
 
 export function ProjectsPage() {
-  const [language, setLanguage] = useState<"es" | "en">("es")
-  const t = useTranslation(translations[language], language)
+  const [language, setLanguage] = useState<Language>("es")
+  const { sections } = translations[language]
 
   return (
     <ProjectLayout language={language} onLanguageChange={setLanguage}>
-      {/* AI Section */}
       <ProjectSection
         id="ai"
-        title={t?.sections?.ai?.title ?? ""}
-        subtitle={t?.sections?.ai?.subtitle ?? ""}
-        projects={t?.sections?.ai?.projects ?? []}
+        title={sections.ai.title}
+        subtitle={sections.ai.subtitle}
+        projects={sections.ai.projects}
         language={language}
       />
-
-      {/* Programming Section */}
       <ProjectSection
         id="programming"
-        title={t?.sections?.programming?.title ?? ""}
-        subtitle={t?.sections?.programming?.subtitle ?? ""}
-        skills={t?.sections?.programming?.skills ?? []}
+        title={sections.programming.title}
+        subtitle={sections.programming.subtitle}
+        skills={sections.programming.skills}
         language={language}
       />
-
-      {/* Systems Design Section */}
       <ProjectSection
         id="systems"
-        title={t?.sections?.systems?.title ?? ""}
-        subtitle={t?.sections?.systems?.subtitle ?? ""}
-        skills={t?.sections?.systems?.skills ?? []}
+        title={sections.systems.title}
+        subtitle={sections.systems.subtitle}
+        skills={sections.systems.skills}
         language={language}
       />
-
-      {/* Posts Section */}
-      <ProjectSection
-        id="posts"
-        title={t?.sections?.posts?.title ?? ""}
-        subtitle={t?.sections?.posts?.subtitle ?? ""}
-        language={language}
-      />
+      <ProjectSection id="posts" title={sections.posts.title} subtitle={sections.posts.subtitle} language={language} />
     </ProjectLayout>
   )
 }
-

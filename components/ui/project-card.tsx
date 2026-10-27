@@ -1,15 +1,17 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Link from "next/link"
 import { ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import type { Language } from "@/config/translations"
 
 interface ProjectCardProps {
   title: string
   description: string
   link: string
-  language: "es" | "en"
+  language: Language
   index: number
 }
 
@@ -28,10 +30,10 @@ export function ProjectCard({ title, description, link, language, index }: Proje
         </CardHeader>
         <CardContent>
           <Button variant="secondary" asChild className="w-full">
-            <a href={link}>
+            <Link href={link}>
               <ChevronRight className="mr-2 h-4 w-4" />
               {language === "es" ? "Ver Proyecto" : "View Project"}
-            </a>
+            </Link>
           </Button>
         </CardContent>
       </Card>

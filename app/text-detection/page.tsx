@@ -1,11 +1,15 @@
 import { ProjectLayout } from "@/components/layouts/project-layout"
-import { TextDetectionContent } from "@/components/project-contents/text-detection-content"
+import { DemoHeader } from "@/components/demo-header"
+import { TextDetectionDemo } from "@/components/demos"
+import { translations } from "@/config/translations"
 
-export default function TextDetectionPage() {
+export default function Page() {
+  const t = translations.es.projects.textDetection
+
   return (
     <ProjectLayout>
-      <TextDetectionContent />
+      <DemoHeader title={t.title} description={t.description} />
+      <TextDetectionDemo />
     </ProjectLayout>
   )
 }
-

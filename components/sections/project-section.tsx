@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { ProjectCard } from "@/components/ui/project-card"
 import { SkillCard } from "@/components/ui/skill-card"
-import type { Project, Skill } from "@/types"
+import type { Language, Project, Skill } from "@/config/translations"
 
 interface ProjectSectionProps {
   id: string
@@ -11,7 +11,7 @@ interface ProjectSectionProps {
   subtitle: string
   projects?: Project[]
   skills?: Skill[]
-  language: "es" | "en"
+  language: Language
 }
 
 export function ProjectSection({ id, title, subtitle, projects, skills, language }: ProjectSectionProps) {
