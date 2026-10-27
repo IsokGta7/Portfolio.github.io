@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react"
 import { Camera, Upload } from "lucide-react"
-import * as tf from "@tensorflow/tfjs"
+import type * as TF from "@tensorflow/tfjs"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -14,7 +14,9 @@ const INPUT_SIZE = 180
 
 export function FlowerPredictionContent() {
   const [prediction, setPrediction] = useState<string>("Esperando predicción...")
-  const [model, setModel] = useState<tf.LayersModel | null>(null)
+  const [model, setModel] = useState<TF.LayersModel | null>(null)
+  // TensorFlow.js is imported when the demo mounts, not with the page.
+  const tfRef = useRef<typeof TF | null>(null)
   const [isModelLoading, setIsModelLoading] = useState(true)
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null)
   const [selectedDevice, setSelectedDevice] = useState<string>("user")
@@ -24,10 +26,14 @@ export function FlowerPredictionContent() {
   const processedCanvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    let loaded: tf.LayersModel | null = null
+    let loaded: TF.LayersModel | null = null
     let cancelled = false
 
-    tf.loadLayersModel(withBasePath("/assets/models/flowers/model_flowers.json"))
+    import("@tensorflow/tfjs")
+      .then((tf) => {
+        tfRef.current = tf
+        return tf.loadLayersModel(withBasePath("/assets/models/flowers/model_flowers.json"))
+      })
       .then((m) => {
         if (cancelled) {
           m.dispose()
@@ -38,6 +44,7 @@ export function FlowerPredictionContent() {
       })
       .catch((error: unknown) => {
         console.error("Error loading model:", error)
+        if (!cancelled) setPrediction("No se pudo cargar el modelo. Intenta recargar la página.")
       })
       .finally(() => {
         if (!cancelled) setIsModelLoading(false)
@@ -52,11 +59,12 @@ export function FlowerPredictionContent() {
   // Classifies whatever is currently drawn on the hidden input canvas.
   const classifyCanvas = useCallback(async () => {
     const canvas = canvasRef.current
-    if (!model || !canvas) return
+    const tf = tfRef.current
+    if (!model || !canvas || !tf) return
 
     const output = tf.tidy(() => {
       const input = tf.browser.fromPixels(canvas).toFloat().expandDims(0)
-      return model.predict(input) as tf.Tensor
+      return model.predict(input) as TF.Tensor
     })
 
     try {

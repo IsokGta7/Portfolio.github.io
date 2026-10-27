@@ -2,17 +2,21 @@
 
 import { useState, useRef, useEffect, useCallback } from "react"
 import { Eraser, Wand2 } from "lucide-react"
-import * as tf from "@tensorflow/tfjs"
+import type * as TF from "@tensorflow/tfjs"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { translations } from "@/config/translations"
 import { withBasePath } from "@/lib/base-path"
 
 type PointerLikeEvent = React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
 
 export function NumberPredictionContent() {
   const [prediction, setPrediction] = useState<number | null>(null)
-  const [model, setModel] = useState<tf.LayersModel | null>(null)
+  const [model, setModel] = useState<TF.LayersModel | null>(null)
   const [isModelLoading, setIsModelLoading] = useState(true)
+  const [modelFailed, setModelFailed] = useState(false)
+  // TensorFlow.js is imported when the demo mounts, not with the page.
+  const tfRef = useRef<typeof TF | null>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const isDrawing = useRef(false)
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
@@ -40,10 +44,14 @@ export function NumberPredictionContent() {
   }, [])
 
   useEffect(() => {
-    let loaded: tf.LayersModel | null = null
+    let loaded: TF.LayersModel | null = null
     let cancelled = false
 
-    tf.loadLayersModel(withBasePath("/assets/models/numbers/model_numbers.json"))
+    import("@tensorflow/tfjs")
+      .then((tf) => {
+        tfRef.current = tf
+        return tf.loadLayersModel(withBasePath("/assets/models/numbers/model_numbers.json"))
+      })
       .then((m) => {
         if (cancelled) {
           m.dispose()
@@ -54,6 +62,7 @@ export function NumberPredictionContent() {
       })
       .catch((error: unknown) => {
         console.error("Model loading failed:", error)
+        if (!cancelled) setModelFailed(true)
       })
       .finally(() => {
         if (!cancelled) setIsModelLoading(false)
@@ -105,13 +114,14 @@ export function NumberPredictionContent() {
     for (let i = 0; i < data.length; i += 4) {
       pixels.push(data[i] / 255)
     }
-    return tf.tensor4d(pixels, [1, 28, 28, 1])
+    return tfRef.current!.tensor4d(pixels, [1, 28, 28, 1])
   }, [])
 
   const handlePredict = useCallback(async () => {
-    if (!model) return
+    const tf = tfRef.current
+    if (!model || !tf) return
     const input = preprocessCanvas()
-    const output = model.predict(input) as tf.Tensor
+    const output = model.predict(input) as TF.Tensor
     const best = output.argMax(1)
     try {
       const [result] = await best.data()
@@ -165,6 +175,12 @@ export function NumberPredictionContent() {
               Clear
             </Button>
           </div>
+
+          {modelFailed && (
+            <p role="alert" className="text-center text-sm text-destructive">
+              {translations.es.projects.numberPrediction.modelError}
+            </p>
+          )}
         </CardContent>
       </Card>
     </div>

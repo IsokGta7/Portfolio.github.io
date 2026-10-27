@@ -23,8 +23,3 @@ export const BitcoinPredictionDemo = dynamic(
   () => import("@/components/project-contents/bitcoin-prediction-content").then((m) => m.BitcoinPredictionContent),
   { ssr: false, loading: DemoPlaceholder },
 )
-
-export const TextDetectionDemo = dynamic(
-  () => import("@/components/project-contents/text-detection-content").then((m) => m.TextDetectionContent),
-  { ssr: false, loading: DemoPlaceholder },
-)
