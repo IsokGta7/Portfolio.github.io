@@ -92,21 +92,19 @@ async function predictSeries(model: LayersModel, closes: number[]): Promise<(num
   return predictions
 }
 
-const chartTheme = {
-  textColor: "#94a3b8",
-  gridColor: "#334155",
-  tooltipBackground: "#1f2937",
-  tooltipText: "#f8fafc",
+// Axis text and grid follow the theme through currentColor (the chart sits in a
+// text-muted-foreground box); the tooltip reads the theme tokens directly.
+const tooltipStyle = {
+  backgroundColor: "hsl(var(--popover))",
+  color: "hsl(var(--popover-foreground))",
+  border: "1px solid hsl(var(--border))",
+  borderRadius: "var(--radius)",
 }
 
-const tooltipStyle = {
-  backgroundColor: chartTheme.tooltipBackground,
-  color: chartTheme.tooltipText,
-  border: "none",
-}
+const legendText = (value: string) => <span className="text-foreground">{value}</span>
 
 export function BitcoinPredictionContent({ lang }: { lang: Language }) {
-  const t = translations[lang].projects.bitcoinPrediction
+  const t = translations[lang].demoPages.bitcoinPrediction
   const [data, setData] = useState<ChartPoint[]>([])
   const [status, setStatus] = useState<Status>("loading")
 
@@ -190,12 +188,12 @@ export function BitcoinPredictionContent({ lang }: { lang: Language }) {
           <CardTitle>{t.predictionChart}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-[300px] w-full">
+          <div className="h-[300px] w-full text-muted-foreground">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data}>
-                <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.gridColor} />
-                <XAxis dataKey="time" stroke={chartTheme.textColor} minTickGap={24} />
-                <YAxis stroke={chartTheme.textColor} domain={["auto", "auto"]} width={72} />
+                <CartesianGrid strokeDasharray="3 3" stroke="currentColor" strokeOpacity={0.25} />
+                <XAxis dataKey="time" stroke="currentColor" tick={{ fill: "currentColor" }} minTickGap={24} />
+                <YAxis stroke="currentColor" tick={{ fill: "currentColor" }} domain={["auto", "auto"]} width={72} />
                 <Tooltip contentStyle={tooltipStyle} />
                 <Line type="monotone" dataKey="prediction" name={t.prediction} stroke="#ef4444" dot={false} strokeWidth={2} />
               </LineChart>
@@ -209,14 +207,14 @@ export function BitcoinPredictionContent({ lang }: { lang: Language }) {
           <CardTitle>{t.comparison}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-[300px] w-full">
+          <div className="h-[300px] w-full text-muted-foreground">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data}>
-                <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.gridColor} />
-                <XAxis dataKey="time" stroke={chartTheme.textColor} minTickGap={24} />
-                <YAxis stroke={chartTheme.textColor} domain={["auto", "auto"]} width={72} />
+                <CartesianGrid strokeDasharray="3 3" stroke="currentColor" strokeOpacity={0.25} />
+                <XAxis dataKey="time" stroke="currentColor" tick={{ fill: "currentColor" }} minTickGap={24} />
+                <YAxis stroke="currentColor" tick={{ fill: "currentColor" }} domain={["auto", "auto"]} width={72} />
                 <Tooltip contentStyle={tooltipStyle} />
-                <Legend />
+                <Legend formatter={legendText} />
                 <Line type="monotone" dataKey="realValue" name={t.realValue} stroke="#3b82f6" dot={false} strokeWidth={2} />
                 <Line type="monotone" dataKey="prediction" name={t.prediction} stroke="#ef4444" dot={false} strokeWidth={2} />
               </LineChart>

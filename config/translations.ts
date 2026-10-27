@@ -10,7 +10,7 @@ const es = {
     siteName: "Isaac Rodríguez",
     title: "Isaac Rodríguez · Portafolio",
     description:
-      "Portafolio de Isaac Rodríguez: proyectos de inteligencia artificial, programación en C++ y Python, y diseño de sistemas web.",
+      "Portafolio de Isaac Rodríguez: proyectos web, de sistemas en C++ y de inteligencia artificial, con demos que corren en el navegador.",
   },
   ui: {
     skipToContent: "Saltar al contenido",
@@ -18,96 +18,79 @@ const es = {
     lightMode: "Cambiar a modo claro",
     darkMode: "Cambiar a modo oscuro",
     switchLanguage: "Read in English",
-    viewProject: "Ver proyecto",
+    home: "Inicio",
   },
   nav: {
-    ai: "Inteligencia Artificial",
-    programming: "Programación",
-    systems: "Diseño de Sistemas",
-    posts: "Posts",
+    about: "Sobre mí",
+    projects: "Proyectos",
+    demos: "Demos",
+    contact: "Contacto",
   },
-  sections: {
-    ai: {
-      title: "Inteligencia Artificial",
-      subtitle: "Redes Neuronales y Proyectos de IA",
-      projects: [
-        {
-          title: "Predicción de números escritos a mano",
-          description: "Redes Neuronales Convolucionales",
-          link: "/number-prediction",
-        },
-        {
-          title: "Detección flores pormedio de imagenes",
-          description: "Procesamiento de Imágenes con Redes Neuronales",
-          link: "/flower-classifier",
-        },
-        {
-          title: "Predicción del valor de bolsa de bitcoin",
-          description: "LSTM Recurrent Neural Network",
-          link: "/bitcoin-prediction",
-        },
-        {
-          title: "Clasificacion de animales (Perros o Gatos)",
-          description: "Procesamiento de Imágenes con Redes Neuronales",
-          link: "/animal-classifier",
-        },
-        {
-          title: "Detección de objetos con el modelo YOLO",
-          description: "Deep Learning",
-          link: "/object-detection",
-        },
-        {
-          title: "Reconocimiento facial con caras",
-          description: "Computer Vision",
-          link: "/facial-recognition",
-        },
-        {
-          title: "Deteccion de fraude en correos electronicos",
-          description: "LSTM Recurrent Neural Networks",
-          link: "/fraud-detection",
-        },
-      ],
-    },
-    programming: {
-      title: "Programación",
-      subtitle: "Lenguajes y Tecnologías",
-      skills: [
-        {
-          name: "C++",
-          description: "Desarrollo de aplicaciones de alto rendimiento con MPICC y estructuras de datos",
-        },
-        {
-          name: "Python",
-          description: "Desarrollo de aplicaciones, scripts y procesamiento de datos",
-        },
-      ],
-    },
-    systems: {
-      title: "Diseño de Sistemas",
-      subtitle: "Frameworks y Tecnologías",
-      skills: [
-        {
-          name: "Django",
-          description: "Desarrollo web backend con Python",
-        },
-        {
-          name: ".NET",
-          description: "Desarrollo de aplicaciones empresariales",
-        },
-        {
-          name: "React",
-          description: "Desarrollo de interfaces modernas",
-        },
-      ],
-    },
-    posts: {
-      title: "Posts",
-      subtitle: "Artículos y Tutoriales",
-    },
+  hero: {
+    role: "Desarrollo de software e inteligencia artificial",
+    summary:
+      "Aplicaciones web con React y Supabase, sistemas de alto rendimiento en C++ y modelos de redes neuronales que corren en el navegador.",
+    viewProjects: "Ver proyectos",
+  },
+  about: {
+    title: "Sobre mí",
+    paragraphs: [
+      "Programo en C++ aplicaciones de alto rendimiento con MPI y estructuras de datos, y en Python aplicaciones, scripts y procesamiento de datos.",
+      "En la web he trabajado con Django para el backend, con .NET para aplicaciones empresariales y con React para interfaces modernas.",
+      "En inteligencia artificial he hecho proyectos con redes neuronales convolucionales para clasificar imágenes y con redes LSTM para predecir series de tiempo; tres de esos modelos se pueden probar abajo, en Demos.",
+    ],
+    skillGroups: [
+      {
+        title: "Programación",
+        skills: [
+          { name: "C++", description: "Aplicaciones de alto rendimiento con MPI y estructuras de datos" },
+          { name: "Python", description: "Aplicaciones, scripts y procesamiento de datos" },
+        ],
+      },
+      {
+        title: "Diseño de sistemas",
+        skills: [
+          { name: "Django", description: "Desarrollo web backend con Python" },
+          { name: ".NET", description: "Aplicaciones empresariales" },
+          { name: "React", description: "Interfaces modernas" },
+        ],
+      },
+    ],
   },
   projects: {
+    title: "Proyectos",
+    subtitle: "Trabajo reciente, con el problema que resuelve y el resultado.",
+    labels: {
+      problem: "Problema",
+      role: "Rol",
+      stack: "Tecnologías",
+      outcome: "Resultado",
+      live: "Ver sitio",
+      repo: "Código",
+      privateRepo: "Repositorio privado",
+    },
+  },
+  demos: {
+    title: "Demos",
+    subtitle: "Modelos de redes neuronales que corren en tu navegador con TensorFlow.js.",
+    open: "Abrir demo",
+    backToDemos: "Volver a las demos",
+  },
+  contact: {
+    title: "Contacto",
+    subtitle: "La forma más rápida de ver mi trabajo es mi perfil de GitHub.",
+    github: "GitHub",
+    linkedin: "LinkedIn",
+    email: "Correo",
+    cv: "Descargar CV",
+  },
+  footer: {
+    source: "Código de este sitio",
+  },
+  demoPages: {
     numberPrediction: {
-      title: "Predicción de Números Escritos a Mano",
+      title: "Predicción de números escritos a mano",
+      technique: "Red neuronal convolucional",
       description: "Dibuja un número en el lienzo y el modelo lo identificará.",
       result: "Número predicho:",
       loading: "Cargando el modelo…",
@@ -117,27 +100,29 @@ const es = {
       clear: "Limpiar",
     },
     flowerClassifier: {
-      title: "Clasificador de Flores",
-      description: "Clasificación en tiempo real usando cámara o imágenes",
+      title: "Clasificador de flores",
+      technique: "Procesamiento de imágenes con redes neuronales",
+      description: "Clasificación en tiempo real usando la cámara o una imagen.",
       classes: ["Margarita", "Diente de león", "Rosas", "Girasoles", "Tulipanes"],
       waiting: "Esperando predicción...",
       predictionError: "Error en la predicción",
       modelError: "No se pudo cargar el modelo. Intenta recargar la página.",
       cameraError: "No se pudo acceder a la cámara.",
       selectCamera: "Seleccionar cámara",
-      frontCamera: "Cámara Frontal",
-      backCamera: "Cámara Trasera",
-      startCamera: "Iniciar Cámara",
-      switchCamera: "Cambiar Cámara",
-      upload: "Subir Imagen",
-      processed: "Imagen Preprocesada",
+      frontCamera: "Cámara frontal",
+      backCamera: "Cámara trasera",
+      startCamera: "Iniciar cámara",
+      switchCamera: "Cambiar cámara",
+      upload: "Subir imagen",
+      processed: "Imagen preprocesada",
     },
     bitcoinPrediction: {
-      title: "Predicción del valor de bolsa de bitcoin",
-      description: "Visualización en tiempo real de las predicciones de valor de Bitcoin.",
-      predictionChart: "Gráfico de Predicción",
-      comparison: "Comparación Real vs. Predicción",
-      realValue: "Valor Real",
+      title: "Predicción del precio de Bitcoin",
+      technique: "Red neuronal recurrente LSTM",
+      description: "Predicciones del precio de BTC/USDT minuto a minuto, comparadas con el valor real.",
+      predictionChart: "Gráfico de predicción",
+      comparison: "Comparación real vs. predicción",
+      realValue: "Valor real",
       prediction: "Predicción",
       loading: "Cargando el modelo y los precios de BTC/USDT…",
       live: "Precios de cierre por minuto de BTC/USDT desde Binance. Se actualizan cada minuto.",
@@ -145,43 +130,18 @@ const es = {
         "No se pudo conectar con Binance (puede estar bloqueado en tu país o no hay conexión). Se muestra una serie de ejemplo generada en el navegador, no precios reales.",
       modelError: "No se pudo cargar el modelo de predicción. Intenta recargar la página.",
     },
-    cpp: {
-      title: "Proyectos en C++",
-      description: "Una colección de proyectos desarrollados en C++.",
-      projects: [
-        {
-          title: "Algoritmo de Ordenamiento Rápido",
-          description: "Implementación eficiente del algoritmo QuickSort en C++.",
-          sampleCode: ``,
-        },
-        // Add more C++ projects here
-      ],
-    },
-    python: {
-      title: "Proyectos en Python",
-      description: "Una colección de proyectos desarrollados en Python.",
-      projects: [
-        {
-          title: "Análisis de Sentimientos con NLTK",
-          description: "Un script de Python que realiza análisis de sentimientos utilizando la biblioteca NLTK.",
-          sampleCode: ``,
-        },
-        // Add more Python projects here
-      ],
-    },
   },
 }
 
 export type Dictionary = typeof es
-export type Project = Dictionary["sections"]["ai"]["projects"][number]
-export type Skill = Dictionary["sections"]["programming"]["skills"][number]
+export type DemoKey = keyof Dictionary["demoPages"]
 
 const en: Dictionary = {
   meta: {
     siteName: "Isaac Rodríguez",
     title: "Isaac Rodríguez · Portfolio",
     description:
-      "Portfolio of Isaac Rodríguez: artificial intelligence projects, C++ and Python programming, and web systems design.",
+      "Portfolio of Isaac Rodríguez: web, C++ systems and artificial intelligence projects, with demos that run in the browser.",
   },
   ui: {
     skipToContent: "Skip to content",
@@ -189,96 +149,79 @@ const en: Dictionary = {
     lightMode: "Switch to light mode",
     darkMode: "Switch to dark mode",
     switchLanguage: "Leer en español",
-    viewProject: "View project",
+    home: "Home",
   },
   nav: {
-    ai: "Artificial Intelligence",
-    programming: "Programming",
-    systems: "System Design",
-    posts: "Posts",
+    about: "About",
+    projects: "Projects",
+    demos: "Demos",
+    contact: "Contact",
   },
-  sections: {
-    ai: {
-      title: "Artificial Intelligence",
-      subtitle: "Neural Networks and AI Projects",
-      projects: [
-        {
-          title: "Handwritten Number Prediction",
-          description: "Convolutional Neural Networks",
-          link: "/number-prediction",
-        },
-        {
-          title: "Flower detection classifier",
-          description: "Image Processing with CNN",
-          link: "/flower-classifier",
-        },
-        {
-          title: "Bitcoin Stock Value Prediction",
-          description: "LSTM Recurrent Neural Networks",
-          link: "/bitcoin-prediction",
-        },
-        {
-          title: "Cat and dog classifier",
-          description: "Computer Vision CNN",
-          link: "/animal-classifier",
-        },
-        {
-          title: "Object Detection with YOLO Model",
-          description: "Deep Learning",
-          link: "/object-detection",
-        },
-        {
-          title: "Facial Recognition with Faces",
-          description: "Computer Vision",
-          link: "/facial-recognition",
-        },
-        {
-          title: "Fraud detection on emails",
-          description: "LSTM Recurrent Neural Networks",
-          link: "/fraud-detection",
-        },
-      ],
-    },
-    programming: {
-      title: "Programming",
-      subtitle: "Languages and Technologies",
-      skills: [
-        {
-          name: "C++",
-          description: "High-performance application development using MPI and improved data structures",
-        },
-        {
-          name: "Python",
-          description: "Application, script development and data analysis and processing",
-        },
-      ],
-    },
-    systems: {
-      title: "System Design",
-      subtitle: "Frameworks and Technologies",
-      skills: [
-        {
-          name: "Django",
-          description: "Backend web development with Python",
-        },
-        {
-          name: ".NET",
-          description: "Enterprise application development",
-        },
-        {
-          name: "React",
-          description: "Modern interface development",
-        },
-      ],
-    },
-    posts: {
-      title: "Posts",
-      subtitle: "Articles and Tutorials",
-    },
+  hero: {
+    role: "Software development and artificial intelligence",
+    summary:
+      "Web applications with React and Supabase, high-performance systems in C++, and neural network models that run in the browser.",
+    viewProjects: "View projects",
+  },
+  about: {
+    title: "About",
+    paragraphs: [
+      "I write high-performance applications in C++ using MPI and data structures, and applications, scripts and data processing in Python.",
+      "On the web I have worked with Django for the backend, .NET for enterprise applications and React for modern interfaces.",
+      "In artificial intelligence I have built projects with convolutional neural networks to classify images and LSTM networks to predict time series; three of those models can be tried below, under Demos.",
+    ],
+    skillGroups: [
+      {
+        title: "Programming",
+        skills: [
+          { name: "C++", description: "High-performance applications with MPI and data structures" },
+          { name: "Python", description: "Applications, scripts and data processing" },
+        ],
+      },
+      {
+        title: "System design",
+        skills: [
+          { name: "Django", description: "Backend web development with Python" },
+          { name: ".NET", description: "Enterprise applications" },
+          { name: "React", description: "Modern interfaces" },
+        ],
+      },
+    ],
   },
   projects: {
+    title: "Projects",
+    subtitle: "Recent work, with the problem it solves and the result.",
+    labels: {
+      problem: "Problem",
+      role: "Role",
+      stack: "Stack",
+      outcome: "Outcome",
+      live: "Visit site",
+      repo: "Code",
+      privateRepo: "Private repository",
+    },
+  },
+  demos: {
+    title: "Demos",
+    subtitle: "Neural network models that run in your browser with TensorFlow.js.",
+    open: "Open demo",
+    backToDemos: "Back to the demos",
+  },
+  contact: {
+    title: "Contact",
+    subtitle: "The quickest way to see my work is my GitHub profile.",
+    github: "GitHub",
+    linkedin: "LinkedIn",
+    email: "Email",
+    cv: "Download CV",
+  },
+  footer: {
+    source: "Source of this site",
+  },
+  demoPages: {
     numberPrediction: {
-      title: "Handwritten Number Prediction",
+      title: "Handwritten number prediction",
+      technique: "Convolutional neural network",
       description: "Draw a number on the canvas and the model will identify it.",
       result: "Predicted number:",
       loading: "Loading the model…",
@@ -288,8 +231,9 @@ const en: Dictionary = {
       clear: "Clear",
     },
     flowerClassifier: {
-      title: "Flower Classifier",
-      description: "Real-time classification from the camera or an image",
+      title: "Flower classifier",
+      technique: "Image processing with neural networks",
+      description: "Real-time classification from the camera or an image.",
       classes: ["Daisy", "Dandelion", "Roses", "Sunflowers", "Tulips"],
       waiting: "Waiting for a prediction...",
       predictionError: "Prediction failed",
@@ -304,41 +248,18 @@ const en: Dictionary = {
       processed: "Preprocessed image",
     },
     bitcoinPrediction: {
-      title: "Bitcoin Value Prediction",
-      description: "Real-time visualization of Bitcoin value predictions.",
-      predictionChart: "Prediction Chart",
-      comparison: "Real vs. Predicted Comparison",
-      realValue: "Real Value",
+      title: "Bitcoin price prediction",
+      technique: "LSTM recurrent neural network",
+      description: "Minute-by-minute BTC/USDT price predictions, compared with the real value.",
+      predictionChart: "Prediction chart",
+      comparison: "Real vs. predicted",
+      realValue: "Real value",
       prediction: "Prediction",
       loading: "Loading the model and BTC/USDT prices…",
       live: "BTC/USDT one-minute closing prices from Binance, refreshed every minute.",
       unreachable:
         "Binance could not be reached (it may be blocked in your country, or you are offline). Showing a sample series generated in the browser, not real prices.",
       modelError: "The prediction model could not be loaded. Try reloading the page.",
-    },
-    cpp: {
-      title: "C++ Projects",
-      description: "A collection of projects developed in C++.",
-      projects: [
-        {
-          title: "QuickSort Algorithm",
-          description: "Efficient implementation of the QuickSort algorithm in C++.",
-          sampleCode: ``,
-        },
-        // Add more C++ projects here
-      ],
-    },
-    python: {
-      title: "Python Projects",
-      description: "A collection of projects developed in Python.",
-      projects: [
-        {
-          title: "Sentiment Analysis with NLTK",
-          description: "A Python script that performs sentiment analysis using the NLTK library.",
-          sampleCode: ``,
-        },
-        // Add more Python projects here
-      ],
     },
   },
 }

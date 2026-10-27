@@ -15,7 +15,7 @@ const INPUT_SIZE = 180
 type Result = number | "waiting" | "modelError" | "predictionError" | "cameraError"
 
 export function FlowerPredictionContent({ lang }: { lang: Language }) {
-  const t = translations[lang].projects.flowerClassifier
+  const t = translations[lang].demoPages.flowerClassifier
   const [result, setResult] = useState<Result>("waiting")
   const [model, setModel] = useState<TF.LayersModel | null>(null)
   // TensorFlow.js is imported when the demo mounts, not with the page.

@@ -11,7 +11,7 @@ import { withBasePath } from "@/lib/base-path"
 type PointerLikeEvent = React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
 
 export function NumberPredictionContent({ lang }: { lang: Language }) {
-  const t = translations[lang].projects.numberPrediction
+  const t = translations[lang].demoPages.numberPrediction
   const [prediction, setPrediction] = useState<number | null>(null)
   const [model, setModel] = useState<TF.LayersModel | null>(null)
   const [isModelLoading, setIsModelLoading] = useState(true)

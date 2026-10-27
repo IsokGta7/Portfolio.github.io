@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next"
+import { demoRoutes } from "@/config/demos"
 import { languages } from "@/config/translations"
 import { absoluteUrl } from "@/lib/site"
 
 export const dynamic = "force-static"
 
 // Paths after the language segment, each published in every language.
-const paths = ["", "number-prediction/", "flower-classifier/", "bitcoin-prediction/", "cpp-projects/", "python-projects/"]
+const paths = ["", ...demoRoutes.map((d) => `${d.slug}/`)]
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return paths.flatMap((path) =>
