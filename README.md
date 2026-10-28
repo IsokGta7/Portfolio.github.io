@@ -62,7 +62,7 @@ push to `main` deploys at the root.
 To reproduce a project-page build locally:
 
 ```bash
-NEXT_PUBLIC_BASE_PATH=/Portfolio.github.io npm run build
+NEXT_PUBLIC_BASE_PATH=/<repo-name> npm run build
 ```
 
 (In Git Bash on Windows, prefix it with `MSYS_NO_PATHCONV=1` so the path is not rewritten.)
