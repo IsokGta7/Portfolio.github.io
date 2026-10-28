@@ -72,3 +72,19 @@ NEXT_PUBLIC_BASE_PATH=/<repo-name> npm run build
 The Bitcoin demo reads one-minute BTC/USDT prices from Binance in the browser. `api.binance.com` is blocked in some
 countries, so the demo falls back to Binance's public market-data mirror, and if neither responds it says so and
 plots a sample series generated in the browser instead of real prices.
+
+## Mirror on Netlify
+
+GitHub Pages is the primary site. A second copy lives at https://isokgta7.netlify.app for networks that cannot reach GitHub Pages' address range. It is deployed by hand, points every canonical URL at the primary, and asks search engines not to index it:
+
+```bash
+rm -rf out mirror-out
+NEXT_PUBLIC_BASE_PATH= NEXT_PUBLIC_SITE_URL=https://isokgta7.github.io npm run build
+cp -r out mirror-out
+printf 'User-agent: *\nDisallow: /\n' > mirror-out/robots.txt
+printf '/*\n  X-Robots-Tag: noindex\n' > mirror-out/_headers
+rm -f mirror-out/sitemap.xml
+netlify deploy --prod --dir=mirror-out --site isokgta7
+```
+
+(In Git Bash on Windows, prefix the build with `MSYS_NO_PATHCONV=1`.)
